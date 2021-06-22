@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:input="using:Avalonia.Input"
+        mc:Ignorable="d"
+        x:Class="IronVault.MainWindow"
+        Title="IronVault"
+        Width="900"
+        Height="640">
+  <Grid RowDefinitions="Auto,Auto,*,Auto,Auto,Auto" ColumnDefinitions="*">
+    <TextBlock Margin="16"
+               Text="IronVault – AES-256-GCM drag-and-drop encryptor"
+               FontSize="20"
+               FontWeight="SemiBold" />
+
+    <StackPanel Grid.Row="1" Margin="16" Orientation="Horizontal" Spacing="12">
+      <TextBlock VerticalAlignment="Center" Text="Mode:"/>
+      <RadioButton x:Name="EncryptRadio" Content="Encrypt" IsChecked="True" GroupName="Mode" />
+      <RadioButton x:Name="DecryptRadio" Content="Decrypt" GroupName="Mode" />
+    </StackPanel>
+
+    <Grid Grid.Row="2" Margin="16" RowDefinitions="*,Auto" ColumnDefinitions="2*,*">
+      <Border Grid.RowSpan="2"
+              Margin="0,0,12,0"
+              Background="#121212"
+              CornerRadius="12"
+              BorderBrush="#2b6cb0"
+              BorderThickness="1"
+              Padding="12"
+              x:Name="DropZone"
+              input:DragDrop.AllowDrop="True">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8">
+          <TextBlock Text="Drag and drop files or folders here" HorizontalAlignment="Center" />
+          <TextBlock Text="They will be packed, encrypted, and saved as .vault" FontSize="12" Opacity="0.7" />
+          <Button x:Name="ClearButton" Content="Clear list" Width="120" />
+        </StackPanel>
+      </Border>
+
+      <StackPanel Grid.Column="1" Spacing="8">
+        <TextBlock Text="Password" />
+        <TextBox x:Name="PasswordBox" PasswordChar="•" />
+
+        <TextBlock Text="Keyfile (optional)" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBox x:Name="KeyfileBox" IsReadOnly="True" Width="260" />
+          <Button x:Name="BrowseKeyfileButton" Content="Browse…" Width="90" />
+        </StackPanel>
+
+        <TextBlock Text="Status" />
+        <TextBlock x:Name="StatusText" Text="Idle" />
+
+        <ProgressBar x:Name="ProgressBar" Height="16" Minimum="0" Maximum="1" Value="0" />
+      </StackPanel>
+
+      <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="12">
+        <Button x:Name="EncryptButton" Content="Run" Width="120" />
+        <Button x:Name="OpenOutputButton" Content="Open Output Folder" Width="170" IsEnabled="False" />
+      </StackPanel>
+    </Grid>
+
+    <Border Grid.Row="3" Margin="16" BorderThickness="1" BorderBrush="#2b2b2b" CornerRadius="8" Padding="8">
+      <StackPanel>
+        <TextBlock Text="Queue" FontWeight="SemiBold" />
+        <ListBox x:Name="ItemsList" Height="140" />
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Row="4" Margin="16" BorderThickness="1" BorderBrush="#2b2b2b" CornerRadius="8" Padding="8">
+      <StackPanel>
+        <TextBlock Text="Notes" FontWeight="SemiBold" />
+        <TextBlock Text="• AES-256-GCM, PBKDF2-SHA256 (200k rounds)" />
+        <TextBlock Text="• Add an optional keyfile for 2-factor style protection" />
+        <TextBlock Text="• .vault files decrypt to a folder ending with _extracted" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</Window>
